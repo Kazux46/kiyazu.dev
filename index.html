@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiyazu | Developer</title>
+    <title>Kazu - Developer</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
         
         * {
             margin: 0;
@@ -13,667 +13,542 @@
             box-sizing: border-box;
         }
         
-        :root {
-            --primary-bg: #0a0a0f;
-            --secondary-bg: #1a1a2e;
-            --accent-color: #ff6b9d;
-            --secondary-accent: #4ecdc4;
-            --text-primary: #ffffff;
-            --text-secondary: #b8b8b8;
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #ff6b9d 0%, #4ecdc4 100%);
-            --card-bg: rgba(26, 26, 46, 0.8);
-            --glow: 0 0 30px rgba(255, 107, 157, 0.3);
-        }
-        
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-primary);
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #0d0d0d 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
             overflow-x: hidden;
-            line-height: 1.6;
+            position: relative;
         }
         
-        /* Animated background */
-        .bg-animation {
+        /* Rain effect */
+        .rain {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at 20% 80%, #667eea 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, #ff6b9d 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, #4ecdc4 0%, transparent 50%);
-            opacity: 0.1;
-            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .raindrop {
+            position: absolute;
+            width: 1px;
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* Static noise overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 4px 4px;
+            animation: noise 0.2s infinite;
+        }
+        
+        @keyframes noise {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, 1px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            50% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            70% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            90% { transform: translate(-1px, -1px); }
+        }
+        
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
         }
         
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 2rem;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 107, 157, 0.2);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            padding: 2rem;
-            animation: fadeInUp 1s ease-out;
-        }
-        
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: var(--glow);
-        }
-        
-        .hero .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-        
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--secondary-accent);
-            display: block;
-        }
-        
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        @keyframes fadeInUp {
-            from {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
-                transform: translateY(30px);
             }
-            to {
+            10% {
                 opacity: 1;
-                transform: translateY(0);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
             }
         }
         
-        /* Sections */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Flickering text effect */
+        .flicker {
+            animation: flicker 2s infinite;
         }
         
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 600;
+        @keyframes flicker {
+            0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+            25% { opacity: 0.4; text-shadow: none; }
+            50% { opacity: 1; text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+            75% { opacity: 0.6; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+        }
+        
+        /* Breathing/pulsing effect */
+        .breathe {
+            animation: breathe 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.8; }
+        }
+        
+        /* Distortion waves */
+        .wave-distort {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wave-distort::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.02) 50%, 
+                transparent 100%);
+            animation: wave 6s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: -100%; }
+        }
+        
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        /* Header */
+        .header {
             text-align: center;
             margin-bottom: 3rem;
             position: relative;
         }
         
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--gradient-accent);
-            border-radius: 2px;
+        .name {
+            font-size: 4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            letter-spacing: 3px;
+            filter: contrast(1.2);
         }
         
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        .subtitle {
+            font-size: 1.3rem;
+            color: #888888;
+            font-style: italic;
+            margin-bottom: 2rem;
         }
         
-        .skill-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 107, 157, 0.2);
-            transition: all 0.3s ease;
+        /* Glitch effect for accent text */
+        .glitch {
             position: relative;
-            overflow: hidden;
+            color: #ffffff;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         
-        .skill-card::before {
-            content: '';
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 107, 157, 0.1), transparent);
-            transition: left 0.5s;
         }
         
-        .skill-card:hover::before {
-            left: 100%;
+        .glitch::before {
+            animation: glitch-1 0.8s infinite;
+            color: #cccccc;
+            z-index: -1;
         }
         
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--glow);
-            border-color: var(--accent-color);
+        .glitch::after {
+            animation: glitch-2 0.8s infinite;
+            color: #777777;
+            z-index: -2;
         }
         
-        .skill-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--gradient-accent);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+        @keyframes glitch-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% {
+                transform: translate(0);
+            }
+            15%, 49% {
+                transform: translate(-3px, 2px);
+            }
         }
         
-        .skill-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+        @keyframes glitch-2 {
+            0%, 20%, 21%, 62%, 63%, 99%, 100% {
+                transform: translate(0);
+            }
+            21%, 62% {
+                transform: translate(3px, -2px);
+            }
         }
         
-        .skill-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        
-        .profile-card {
-            background: var(--card-bg);
-            border-radius: 20px;
+        /* Content sections */
+        .section {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
             padding: 2rem;
-            text-align: center;
-            border: 1px solid rgba(78, 205, 196, 0.2);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
         }
         
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .profile-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .profile-info p {
-            color: var(--text-secondary);
+        .section h2 {
+            font-size: 2rem;
             margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            filter: contrast(1.3);
         }
         
-        .location {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: var(--secondary-accent);
-            font-size: 0.9rem;
-        }
-        
-        .about-text {
+        .section p {
             font-size: 1.1rem;
             line-height: 1.8;
-            color: var(--text-secondary);
-        }
-        
-        .about-text strong {
-            color: var(--accent-color);
-        }
-        
-        /* Contact Section */
-        .contact-content {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .contact-form {
-            display: grid;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .form-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-        
-        input, textarea {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 107, 157, 0.2);
-            border-radius: 10px;
-            padding: 1rem;
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        .btn {
-            background: var(--gradient-accent);
-            border: none;
-            border-radius: 50px;
-            padding: 1rem 2rem;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--glow);
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--secondary-bg);
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid rgba(255, 107, 157, 0.2);
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
             margin-bottom: 1rem;
+            color: #cccccc;
         }
         
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-accent);
-            border-radius: 50%;
-            color: white;
+        /* Hover effects */
+        .section:hover {
+            transform: translateY(-8px);
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 16px 50px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Links */
+        a {
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
+            position: relative;
         }
         
-        .social-links a:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--glow);
+        a:hover {
+            color: #cccccc;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
         }
         
-        /* Mobile Responsive */
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #ffffff;
+            transition: width 0.3s ease;
+        }
+        
+        a:hover::after {
+            width: 100%;
+        }
+        
+        /* Special text effects */
+        .highlight {
+            background: linear-gradient(45deg, #ffffff, #888888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+            text-shadow: none;
+            filter: contrast(1.4);
+        }
+        
+        /* Responsive design */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
+            .name {
                 font-size: 2.5rem;
             }
             
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
+            .container {
+                padding: 1rem;
             }
             
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            section {
-                padding: 3rem 1rem;
+            .section {
+                padding: 1.5rem;
             }
         }
         
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Fade in with screen tear effect */
+        .fade-in {
+            animation: fadeInTear 3s ease-in;
         }
         
-        ::-webkit-scrollbar-track {
-            background: var(--primary-bg);
+        @keyframes fadeInTear {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) skewX(2deg);
+                filter: blur(2px);
+            }
+            30% {
+                opacity: 0.3;
+                transform: translateY(15px) skewX(-1deg);
+                filter: blur(1px);
+            }
+            60% {
+                opacity: 0.7;
+                transform: translateY(5px) skewX(0.5deg);
+                filter: blur(0.5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) skewX(0deg);
+                filter: blur(0);
+            }
         }
         
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient-accent);
-            border-radius: 4px;
+        /* Scanlines effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(255, 255, 255, 0.01) 51%,
+                transparent 52%
+            );
+            background-size: 100% 4px;
+            animation: scanlines 0.1s linear infinite;
         }
         
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+        
+        /* Vignette effect */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            background: radial-gradient(
+                circle at center,
+                transparent 0%,
+                transparent 60%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
+    <div class="noise"></div>
+    <div class="vignette"></div>
+    <div class="scanlines"></div>
+    <div class="particles" id="particles"></div>
+    <div class="rain" id="rain"></div>
     
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">Kiyazu</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div class="container fade-in">
+        <div class="header">
+            <h1 class="name flicker">Kiyazu</h1>
+            <p class="subtitle breathe">Developer lost in the digital void</p>
         </div>
-    </nav>
-    
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Kiyazu</h1>
-            <p class="subtitle">Game Modder & Developer from Frankfurt, Germany</p>
-            <p>Crafting digital experiences through code and creativity</p>
-            
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number">17</span>
-                    <span class="stat-label">Years Old</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">5+</span>
-                    <span class="stat-label">Languages</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">Affenpisse</span>
-                </div>
-            </div>
+        
+        <div class="section wave-distort breathe">
+            <h2>About Me</h2>
+            <p>Hey there! I'm <span class="glitch" data-text="Kiyazu">Kiyazu</span>, but you can call me <span class="highlight">Kazu</span>. I'm a 17-year-old developer from Frankfurt, Germany, with a passion for creating and modifying digital experiences.</p>
+            <p>My journey in programming started with curiosity and has evolved into expertise across multiple languages. I specialize in <span class="highlight">game modding</span>, particularly for Fortnite, where I combine creativity with technical skills to push boundaries and create unique experiences.</p>
         </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <div class="profile-card">
-                <div class="profile-avatar">K</div>
-                <div class="profile-info">
-                    <h3>Kiyazu (Kazu)</h3>
-                    <p>Developer & Modder</p>
-                    <div class="location">
-                        <span>📍</span>
-                        <span>Frankfurt, Germany</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="about-text">
-                <p>Hey there! I'm <strong>Kiyazu</strong>, but you can call me <strong>Kazu</strong>. I'm a 17-year-old developer from Frankfurt, Germany, with a passion for creating and modifying digital experiences.</p>
-                
-                <p>My journey in programming started with curiosity and has evolved into expertise across multiple languages. I specialize in <strong>game modding</strong>, particularly for Fortnite, where I combine creativity with technical skills to push boundaries and create unique experiences.</p>
-                
-                <p>When I'm not coding, you'll find me exploring new technologies, watching anime, or working on personal projects that challenge my skills and expand my knowledge.</p>
-            </div>
+        
+        <div class="section wave-distort breathe">
+            <h2>What I Do</h2>
+            <p>When I'm not coding, you'll find me exploring new technologies, watching anime, or working on personal projects that challenge my skills and expand my knowledge.</p>
+            <p>I spend my time wandering through lines of code, finding beauty in the chaos of development. There's something oddly comforting about debugging at 3 AM when the world feels empty and quiet.</p>
         </div>
-    </section>
-    
-    <!-- Skills Section -->
-    <section id="skills">
-        <h2 class="section-title">My Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <div class="skill-icon">💻</div>
-                <h3>C++ Development</h3>
-                <p>Building high-performance applications and game modifications with modern C++ standards and best practices.</p>
-            </div>
-            
-            <div class="skill-card">
-                <div class="skill-icon">⚙️</div>
-                <h3>C# Programming</h3>
-                <p>Creating robust applications and tools using .NET framework, with focus on clean architecture and maintainable code.</p>
-            </div>
-            
-            <div class="skill-card">
-                <div class="skill-icon">🌐</div>
-                <h3>TypeScript & Web Dev</h3>
-                <p>Developing modern web applications with TypeScript, focusing on type safety and scalable frontend solutions.</p>
-            </div>
-            
-            <div class="skill-card">
-                <div class="skill-icon">🎮</div>
-                <h3>Fortnite Modding</h3>
-                <p>Specialized in Fortnite modifications, creating custom content and enhancing gameplay experiences through advanced modding techniques.</p>
-            </div>
-            
-            <div class="skill-card">
-                <div class="skill-icon">📝</div>
-                <h3>Scripting (KS)</h3>
-                <p>Proficient in various scripting languages and automation, streamlining workflows and creating efficient solutions.</p>
-            </div>
-            
-            <div class="skill-card">
-                <div class="skill-icon">🎨</div>
-                <h3>HTML/CSS</h3>
-                <p>Crafting beautiful, responsive web interfaces with modern HTML5 and CSS3, focusing on user experience and accessibility.</p>
-            </div>
+        
+        <div class="section wave-distort breathe">
+            <h2>My Work</h2>
+            <p>I create modifications that breathe new life into existing games, particularly focusing on Fortnite modding. Each project is like painting with code, creating something that didn't exist before.</p>
+            <p>Sometimes I wonder if the digital worlds I create are more real than reality itself. But hey, that's probably just the caffeine talking.</p>
         </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="contact-content">
-            <p>Interested in collaborating or have a project in mind? I'd love to hear from you!</p>
-            
-            <form class="contact-form">
-                <div class="form-group">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                </div>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
+        
+        <div class="section wave-distort breathe">
+            <h2>Get in Touch</h2>
+            <p>Feel free to reach out if you want to collaborate on something interesting or just chat about development, anime, or the existential nature of programming.</p>
+            <p>I'm always up for a good conversation, especially when it involves breaking things and putting them back together in creative ways.</p>
         </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="social-links">
-            <a href="https://github.com/kazux46" title="GitHub" target="_blank">🐱</a>
-            <a href="https://discord.com/users/uqtq" title="Discord" target="_blank">💬</a>
-            <a href="https://twitter.com/KazuDevv" title="Twitter/X" target="_blank">🐦</a>
-            <a href="mailto:contact@kiyazu.dev" title="Email">📧</a>
-        </div>
-        <p>&copy; 2025 Kiyazu. Made with ❤️ and lots of energy drinks.</p>
-    </footer>
+    </div>
     
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Form submission handler
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Create rain drops
+        function createRaindrop() {
+            const raindrop = document.createElement('div');
+            raindrop.className = 'raindrop';
+            raindrop.style.left = Math.random() * 100 + '%';
+            raindrop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+            raindrop.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('rain').appendChild(raindrop);
             
-            // Get form elements
-            const btn = this.querySelector('.btn');
-            const originalText = btn.textContent;
-            
-            // Show loading state
-            btn.textContent = 'Sending...';
-            btn.style.background = 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)';
-            
-            // Simulate form submission
             setTimeout(() => {
-                btn.textContent = 'Message Sent! ✨';
-                btn.style.background = 'linear-gradient(135deg, #00b894 0%, #00a085 100%)';
-                
-                // Reset form
-                this.reset();
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 3000);
-            }, 1500);
-        });
+                raindrop.remove();
+            }, 2000);
+        }
         
-        // Add scroll effect to navigation
-        let lastScrollTop = 0;
-        const nav = document.querySelector('nav');
-        
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // Create floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('particles').appendChild(particle);
             
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                nav.style.transform = 'translateY(-100%)';
-            } else {
-                nav.style.transform = 'translateY(0)';
-            }
-            lastScrollTop = scrollTop;
-        });
+            // Remove particle after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
         
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Create effects periodically
+        setInterval(createParticle, 300);
+        setInterval(createRaindrop, 100);
         
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
+        // Enhanced mouse movement effect with screen distortion
+        document.addEventListener('mousemove', (e) => {
+            const sections = document.querySelectorAll('.section');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            sections.forEach((section, index) => {
+                const offsetX = (mouseX - 0.5) * 15 * (index + 1);
+                const offsetY = (mouseY - 0.5) * 8 * (index + 1);
+                const rotation = (mouseX - 0.5) * 2;
+                section.style.transform = `translate(${offsetX}px, ${offsetY}px) rotate(${rotation}deg)`;
             });
-        }, observerOptions);
-        
-        // Observe all skill cards and sections
-        document.querySelectorAll('.skill-card, section').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
+            
+            // Mouse cursor distortion effect
+            document.body.style.filter = `hue-rotate(${mouseX * 360}deg) contrast(${1 + mouseY * 0.3})`;
         });
         
-        // Hero section is always visible
-        document.querySelector('.hero').style.opacity = '1';
-        document.querySelector('.hero').style.transform = 'translateY(0)';
+        // Random screen glitches
+        function screenGlitch() {
+            const container = document.querySelector('.container');
+            container.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+            container.style.filter = `contrast(${1 + Math.random() * 0.5}) brightness(${0.8 + Math.random() * 0.4})`;
+            
+            setTimeout(() => {
+                container.style.transform = 'translate(0, 0)';
+                container.style.filter = 'none';
+            }, 100);
+        }
+        
+        setInterval(screenGlitch, 3000 + Math.random() * 5000);
+        
+        // Add typing effect to subtitle with glitches
+        const subtitle = document.querySelector('.subtitle');
+        const originalText = subtitle.textContent;
+        subtitle.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < originalText.length) {
+                // Random chance of glitch while typing
+                if (Math.random() < 0.1) {
+                    subtitle.textContent += String.fromCharCode(Math.random() * 26 + 97);
+                    setTimeout(() => {
+                        subtitle.textContent = subtitle.textContent.slice(0, -1) + originalText.charAt(i);
+                        i++;
+                    }, 50);
+                } else {
+                    subtitle.textContent += originalText.charAt(i);
+                    i++;
+                }
+                setTimeout(typeWriter, 120 + Math.random() * 80);
+            }
+        }
+        
+        setTimeout(typeWriter, 1500);
+        
+        // Ambient sound simulation (visual feedback)
+        function ambientPulse() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.boxShadow = section.style.boxShadow + ', 0 0 20px rgba(255, 255, 255, 0.05)';
+                setTimeout(() => {
+                    section.style.boxShadow = section.style.boxShadow.replace(', 0 0 20px rgba(255, 255, 255, 0.05)', '');
+                }, 200);
+            });
+        }
+        
+        setInterval(ambientPulse, 4000 + Math.random() * 3000);
     </script>
 </body>
 </html>
