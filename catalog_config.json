@@ -1,0 +1,58 @@
+{
+    "daily1": {
+        "itemGrants": [
+            "AthenaBackpack:BID_003_RedKnight"
+        ],
+        "price": 1200,
+        "displayPrice": "1,200"
+    },
+    "daily2": {
+        "itemGrants": [
+            "AthenaCharacter:Character_FumeFleeceJig"
+        ],
+        "price": 10000,
+        "displayPrice": "10,000"
+    },
+    "daily3": {
+        "itemGrants": [
+            "AthenaCharacter:CID_424_Athena_Commando_M_Vigilante"
+        ],
+        "price": 10000,
+        "displayPrice": "10,000"
+    },
+    "daily4": {
+        "itemGrants": [
+            "AthenaDance:EID_CarCrash"
+        ],
+        "price": 500,
+        "displayPrice": "5000"
+    },
+    "daily5": {
+        "itemGrants": [
+            "AthenaDance:EID_Terrier"
+        ],
+        "price": 1000,
+        "displayPrice": "1,000"
+    },
+    "daily6": {
+        "itemGrants": [
+            "AthenaDance:EID_FightNight"
+        ],
+        "price": 5000,
+        "displayPrice": "5,000"
+    },
+    "featured1": {
+        "itemGrants": [
+            "AthenaDance:EID_CyberIce"
+        ],
+        "price": 15000,
+        "displayPrice": "15,000" 
+    },
+    "featured4": {
+        "itemGrants": [
+            "AthenaCharacter:Character_TwilightSpotShine"
+        ],
+        "price": 15000,
+        "displayPrice": "15,000"
+    }
+}
